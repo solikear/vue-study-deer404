@@ -1,0 +1,195 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-14 15:49:34
+ * @LastEditTime: 2020-09-16 16:10:57
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue\todoList.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TodoList</title>
+    <script src="./js/vue.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script> -->
+    <link rel="stylesheet" href="./js/todoList.css" />
+  </head>
+  <body>
+    <div id="app">
+      <!-- <input type="text" v-model="msg">
+        <button v-on:click="addItem">提交</button>
+        <ul>
+            <li  v-for="item in list" v-if="item">{{item}}</li>
+        </ul> -->
+      <div class="header">
+        <div class="title-container">
+          <label for="title">ToDoList</label>
+          <input
+            type="text"
+            placeholder="添加ToDo"
+            v-model="msg"
+            v-on:keyup.enter="addItem"
+          />
+        </div>
+      </div>
+      <div class="content">
+        <div class="c-item">
+          <h1>正在进行</h1>
+          <span>{{ongoingList.length}}</span>
+        </div>
+        <transition-group name="flip-list" tag="ul">
+          <todo-item
+            draggable="true"
+            v-for="(item,index) in ongoingList"
+            :item="item"
+            :index="index"
+            @dragstart="dragstart"
+            @dragenter="dragenter"
+            @dragend="dragend"
+            @remove="ongoingRemove"
+            :key="item.key"
+          />
+        </transition-group>
+
+        <div class="c-item">
+          <h1>已经完成</h1>
+          <span>{{completedList.length}}</span>
+        </div>
+        <ul>
+          <li
+            draggable="true"
+            class="card complate"
+            v-for="(item,index) in completedList"
+          >
+            <input type="checkbox" @click="handleOngoing(item,index)" checked />
+            <p>{{item.msg}}</p>
+            <img src="./delete.png" alt="" @click="complateRemove(index)" />
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      const Letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      var app = new Vue({
+        el: "#app",
+        data: {
+          msg: "",
+          list: [],
+          ongoingList: [],
+          completedList: [],
+          oldNum: "",
+          newNum: "",
+        },
+        methods: {
+          //   addItem: function () {
+          //     let msg = this.msg;
+          //     if (msg.trim().length > 0) {
+          //       this.list.push(msg);
+          //       this.msg = "";
+          //     }
+          //   },
+          addItem: function () {
+            let msg = this.msg;
+            if (msg.trim().length > 0 && !this.ongoingList.includes(msg)) {
+              let item = {
+                msg,
+                key: this.getKey(),
+              };
+              this.ongoingList.push(item);
+              //清空Input输入框
+              this.msg = "";
+            }
+            // this.getKey();
+          },
+          handleComplate: function (item, index) {
+            //   console.log(index);
+            this.ongoingRemove(index);
+            this.completedList.push(item);
+          },
+          handleOngoing: function (item, index) {
+            this.complateRemove(index);
+            this.ongoingList.push(item);
+          },
+          ongoingRemove: function (index) {
+            this.ongoingList.splice(index, 1);
+          },
+          complateRemove: function (index) {
+            this.completedList.splice(index, 1);
+          },
+          //拖拽开始
+          dragstart: function (value) {
+            this.oldNum = value;
+            console.log(this.oldNum);
+          },
+          //当拖拽行为结束，也就是松开鼠标的时候触发。
+          dragend: function (value) {
+            if (this.oldNum.key != this.newNum.key) {
+              let oldIndex = this.ongoingList.indexOf(this.oldNum);
+              let newIndex = this.ongoingList.indexOf(this.newNum);
+              let newItems = [...this.ongoingList];
+              // 删除老的节点
+              newItems.splice(oldIndex, 1);
+              // 在列表中目标位置增加新的节点
+              // 从新坐标开始 删除0个元素 并在当前位置插入oldNum
+              // [1,2,3] => [3,1,2]
+              newItems.splice(newIndex, 0, this.oldNum);
+              // this.items一改变，transition-group就起了作用
+              this.ongoingList = [...newItems];
+            }
+          },
+          //拖拽进入某个dom时候 该dom触发
+          dragenter: function (value) {
+            // console.log(value);
+            this.newNum = value;
+          },
+          getKey: function () {
+            let key = this.randomString(8, Letters);
+            return key;
+          },
+          randomString: function (length, chars) {
+            var result = "";
+            for (var i = length; i > 0; --i)
+              result += chars[Math.floor(Math.random() * chars.length)];
+            return result;
+          },
+        },
+      });
+      Vue.component("TodoItem", {
+        props: ["item", "index"],
+        template: `<li
+            draggable="true"
+            class="card"
+            @dragstart="dragstart"
+            @dragenter="dragenter"
+            @dragend="dragend"
+            :key="item.key"
+          >
+            <input type="checkbox" @click="handleComplate(item,index)" />
+            <p>{{item.msg}}</p>
+            <img
+              src="./delete.png"
+              width="16px"
+              alt=""
+              @click="ongoingRemove(index)"
+            />
+          </li>`,
+        methods: {
+          dragstart() {
+            this.$emit("dragstart", this.item);
+          },
+          dragenter() {
+            this.$emit("dragenter", this.item);
+          },
+          dragend() {
+            this.$emit("dragend", this.item);
+          },
+          ongoingRemove(index) {
+            this.$emit("remove", this.index);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

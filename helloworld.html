@@ -1,0 +1,31 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-14 15:41:06
+ * @LastEditTime: 2020-09-14 15:46:45
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue\index.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelloWorld</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+    <div id="app">{{content}}</div>
+    <script>
+        let app = new Vue({
+            el:"#app",
+            data:{
+                content:"Hello World!"
+            }
+        })
+        setTimeout(()=>{
+            app.$data.content="Bye World!"
+        },2000)
+    </script>
+</body>
+</html>
