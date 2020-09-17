@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-14 15:49:34
- * @LastEditTime: 2020-09-16 16:10:57
+ * @LastEditTime: 2020-09-17 10:37:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue\todoList.html
@@ -14,7 +14,7 @@
     <title>TodoList</title>
     <script src="./js/vue.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script> -->
-    <link rel="stylesheet" href="./js/todoList.css" />
+    <link rel="stylesheet" href="./css/todoList.css" />
   </head>
   <body>
     <div id="app">
@@ -45,6 +45,7 @@
             v-for="(item,index) in ongoingList"
             :item="item"
             :index="index"
+            @click="handleComplate"
             @dragstart="dragstart"
             @dragenter="dragenter"
             @dragend="dragend"
@@ -58,15 +59,26 @@
           <span>{{completedList.length}}</span>
         </div>
         <ul>
-          <li
+          <!-- <li
             draggable="true"
             class="card complate"
             v-for="(item,index) in completedList"
           >
             <input type="checkbox" @click="handleOngoing(item,index)" checked />
             <p>{{item.msg}}</p>
-            <img src="./delete.png" alt="" @click="complateRemove(index)" />
-          </li>
+            <img src="/image/delete.png" alt="" @click="complateRemove(index)" />
+          </li> -->
+          <li is="todo-item"
+          draggable="true"
+          @click="handleOngoing"
+          v-for="(item,index) in completedList"
+          :item="item"
+          :index="index"
+          v-bind:checked="true"
+          @remove="complateRemove"
+          :key="item.key"
+          class="complate"
+          ></todo-item>
         </ul>
       </div>
     </div>
@@ -157,25 +169,34 @@
         },
       });
       Vue.component("TodoItem", {
-        props: ["item", "index"],
+        // props: ["item", "index"],
+        props:{
+          item:Object,
+          index:Number,
+          checked:{
+            type:Boolean,
+          }
+        },
         template: `<li
             draggable="true"
             class="card"
             @dragstart="dragstart"
             @dragenter="dragenter"
             @dragend="dragend"
-            :key="item.key"
           >
-            <input type="checkbox" @click="handleComplate(item,index)" />
+            <input type="checkbox" @click="handleClick" :checked="checked"/>
             <p>{{item.msg}}</p>
             <img
-              src="./delete.png"
+              src="image/delete.png"
               width="16px"
               alt=""
-              @click="ongoingRemove(index)"
+              @click="remove"
             />
           </li>`,
         methods: {
+          handleClick(){
+            this.$emit("click",this.item,this.index)
+          },
           dragstart() {
             this.$emit("dragstart", this.item);
           },
@@ -185,7 +206,7 @@
           dragend() {
             this.$emit("dragend", this.item);
           },
-          ongoingRemove(index) {
+          remove(index) {
             this.$emit("remove", this.index);
           },
         },

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-14 15:49:34
- * @LastEditTime: 2020-09-16 16:10:35
+ * @LastEditTime: 2020-09-17 10:18:15
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue\todoList.html
@@ -29,7 +29,7 @@
           <input
             type="text"
             placeholder="添加ToDo"
-            v-model="msg"
+            v-model.lazy="msg"
             v-on:keyup.enter="addItem"
           />
         </div>
@@ -54,7 +54,7 @@
             <input type="checkbox" @click="handleComplate(item,index)" />
             <p>{{item.msg}}</p>
             <img
-              src="./delete.png"
+              src="image/delete.png"
               width="16px"
               alt=""
               @click="ongoingRemove(index)"
@@ -73,7 +73,7 @@
           >
             <input type="checkbox" @click="handleOngoing(item,index)" checked />
             <p>{{item.msg}}</p>
-            <img src="./delete.png" alt="" @click="complateRemove(index)" />
+            <img src="image/delete.png" alt="" @click="complateRemove(index)" />
           </li>
         </ul>
       </div>
