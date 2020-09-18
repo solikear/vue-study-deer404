@@ -1,0 +1,108 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-18 13:59:55
+ * @LastEditTime: 2020-09-18 15:12:34
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue\tab\index.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #58596b;
+      }
+      #root {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .tab-container {
+        display: flex;
+        flex-direction: column;
+        margin-top: 100px;
+        width: 800px;
+        height: 400px;
+        background: #fff;
+      }
+      .header {
+        display: flex;
+        width: 100%;
+        height: 60px;
+        background: #33344a;
+      }
+      .tab {
+        height: 60px;
+        padding: 0 40px;
+        border: none;
+        background: inherit;
+        color: #717181;
+        outline: none;
+        cursor: pointer;
+        transition: 0.3s;
+        transform: scale(0.9);
+      }
+      .curr {
+        color: #fff;
+        background-color: #e74c3c;
+        transform: scale(1);
+      }
+      .content{
+          flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="tab-container">
+        <div class="header">
+          <button
+            v-for="book of books"
+            @click="handleTabClick(book)"
+            :class="['tab',{curr:currentTab === book.name}]"
+          >
+            {{book.name}}
+          </button>
+        </div>
+        <tab-content class="content" :content="currentContent"></tab-content>
+      </div>
+    </div>
+    <script>
+      Vue.component("tab-content", {
+        props:['content'],
+        template: `
+            <div>{{content}}</div>
+          `,
+      });
+      let vm = new Vue({
+        el: "#root",
+        mounted() {
+          const def = this.books[0];
+          this.currentTab = def.name;
+          this.currentContent = def.content;
+        },
+        data: {
+          books: [{name:"三国演义",content:`三国无双黄俊龙`}, {name:"西游记",content:`齐天大圣黄俊龙`},{name:"水浒传",content:`逼上梁山黄俊龙`}, {name:"红楼梦",content:`黄俊龙进大观园`}],
+          currentTab: String,
+          currentContent:String,
+          curr: false,
+        },
+        methods: {
+          handleTabClick(book) {
+            this.currentTab = book.name;
+            this.currentContent = book.content;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-17 14:04:34
+ * @LastEditTime: 2020-09-17 16:20:33
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue\counter\index.html\
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计数器</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <counter @change="handleChange"></counter>
+        <counter @change="handleChange"></counter>
+        <div>total:{{total}}</div>
+    </div>
+    <script>
+        Vue.component('counter',{
+            template:'<div @click="handleClick">{{number}}</div>',
+            data:function() {
+                return {
+                    number:0
+                }
+            }, 
+            methods: {
+                handleClick:function(){
+                    this.number ++;
+                    this.$emit("change",1)
+                },
+            },
+        })
+        let root = new Vue({
+            el:"#root",
+            data:{
+                total:0
+            },
+            methods: {
+                handleChange(step){
+                    // this.total +=1;
+                    this.total += step
+                }
+            },
+        })
+    </script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-09-14 15:49:34
- * @LastEditTime: 2020-09-17 10:37:32
+ * @LastEditTime: 2020-09-17 13:44:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue\todoList.html
@@ -40,7 +40,7 @@
           <span>{{ongoingList.length}}</span>
         </div>
         <transition-group name="flip-list" tag="ul">
-          <todo-item
+          <li is="todo-item"
             draggable="true"
             v-for="(item,index) in ongoingList"
             :item="item"
@@ -51,7 +51,7 @@
             @dragend="dragend"
             @remove="ongoingRemove"
             :key="item.key"
-          />
+          ></li>
         </transition-group>
 
         <div class="c-item">
@@ -70,7 +70,7 @@
           </li> -->
           <li is="todo-item"
           draggable="true"
-          @click="handleOngoing"
+          @click="handleOngoing"w
           v-for="(item,index) in completedList"
           :item="item"
           :index="index"

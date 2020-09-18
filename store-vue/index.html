@@ -1,0 +1,50 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-18 09:24:44
+ * @LastEditTime: 2020-09-18 09:52:55
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue\store-vue\index.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>非父子组件传值 (BUS/发布订阅模式/总线)</title>
+    <script src="./vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <child content="Dell"></child>
+    <child content="Lee"></child>
+</div>
+<script>
+    Vue.prototype.bus = new Vue()
+    Vue.component('child', {
+        props: {
+            content: String
+        },
+        data:function() {
+            return {
+                text:this.content
+            }
+        },
+        template: '<div @click="handleClick">{{text}}</div>',
+        mounted:function() {
+            this.bus.$on('change',msg=>{
+                this.text = msg;
+            })
+        },
+        methods: {
+            handleClick:function(){
+                this.bus.$emit("change",this.text)
+            }
+        },
+    })
+    let vm = new Vue({
+        el: "#root"
+    })
+</script>
+</body>
+</html>

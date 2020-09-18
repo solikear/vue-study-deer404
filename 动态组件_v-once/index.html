@@ -1,0 +1,44 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-18 13:47:51
+ * @LastEditTime: 2020-09-18 13:53:24
+ * @LastEditors: Please set LastEditors
+ * @Description: 动态组件与v-once
+ * @FilePath: \vue\动态组件_v-once\index.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!-- <child-one></child-one>
+        <child-two></child-two> -->
+        <component v-bind:is="show"></component>
+        <button @click="btnClick">change</button>
+    </div>
+    <script>
+        Vue.component('child-one', {
+            template:'<div>child-one</div>'
+        })
+        Vue.component('child-two', {
+            template:'<div>child-two</div>'
+        })
+        let vm = new Vue({
+            el:"#root",
+            data:{
+                show:'child-one'
+            },
+            methods: {
+                btnClick(){
+                    this.show = 'child-two'
+                }
+            },
+        })
+    </script>
+</body>
+</html>

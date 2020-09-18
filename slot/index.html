@@ -1,0 +1,75 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-18 10:32:34
+ * @LastEditTime: 2020-09-18 13:34:01
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue\slot\index.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../vue.js"></script>
+  </head>
+  <body>
+    <div id="root">
+      <!-- <child>
+        <p>Hello</p>
+      </child>
+      <child></child> -->
+      <body-content>
+        <!-- <div>我来组成头部</div> -->
+        <template v-slot:header>我来组成头部</template>
+        <!-- <div>我来组成尾巴</div> -->
+        <template v-slot:footer>我来组成尾巴</template>
+      </body-content>
+      <list v-slot:default="defprops">
+        <template v-slot:nums="props">
+          <div>{{props.item}}</div>
+        </template>
+        <template>
+            <div>{{defprops.names}}</div>
+          </template>
+        <template >
+          <div>{{defprops.number}}</div>
+        </template>
+      </list>
+    </div>
+    <script>
+      Vue.component("child", {
+        template: `<div>
+                <slot>默认内容</slot>
+                </div>`,
+      });
+      Vue.component("body-content", {
+        template: `<div>
+                <slot name="header"></slot>
+                <span>content</span>
+                <slot name="footer"></slot>
+                </div>`,
+      });
+      Vue.component("list", {
+        data() {
+          return {
+            list: [1, 2, 3, 4, 5],
+            number:100,
+            name:"hjl"
+          };
+        },
+        template: `<div>
+                <ul>
+                    <slot name="nums" v-for="item of list" :item="item"></slot>    
+                    <slot :names="this.name"></slot>    
+                    <slot  :number="this.number"></slot>    
+                </ul>
+                </div>`,
+      });
+      let vm = new Vue({
+        el: "#root",
+      });
+    </script>
+  </body>
+</html>
