@@ -1,0 +1,48 @@
+<!-- 模板 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动画效果6-列表过渡</title>
+    <script src="https://cn.vuejs.org/js/vue.js"></script>
+    <style>
+        .v-enter,.v-leave-to{
+            opacity: 0;
+        }
+        .v-enter-active,.v-leave-active{
+            transition: opacity 3s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+        <transition-group>
+            <div v-for="(item,index) of list" :key="item.id">
+                {{item.title}}
+            </div>
+        </transition-group>
+        <button @click="handleBtnClick">add</button>
+    </div>
+    <script>
+        let count = 0;
+        let vm = new Vue({
+            el: "#root",
+            data: {
+                list: []
+            },
+            methods: {
+                handleBtnClick() {
+                    this.list.push({
+                        id: count++,
+                        title: "hello world"
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

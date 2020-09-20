@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动画封装 fade组件</title>
+    <script src="../vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.6/velocity.min.js"></script>
+    <style>
+        /* 取而代之 用JS封装进组件里 
+        虽然我觉得.vue文件时候并不需要这样
+        */
+
+        /* .v-enter,
+        .v-leave-to {
+            opacity: 0;
+        }
+
+        .v-enter-active,
+        .v-leave-active {
+            transition: opacity 1s;
+        } */
+    </style>
+</head>
+
+<body>
+    <div id="root">
+        <fade :show="show">
+            <div v-if="show">Hello World</div>
+        </fade>
+        <button @click="handleClick">
+            toggle
+        </button>
+    </div>
+    <script>
+        Vue.component("fade", {
+            props: ["show"],
+            template: `
+                <transition
+                    @before-enter="handleBeforeEnter"
+                    @enter="handleEnter"
+                    @before-leave="handleBeforeLeave"
+                    @leave="handleLeave"
+                    >
+                    <slot v-if="show"></slot>
+                </transition>
+            `,
+            methods: {
+                handleBeforeEnter(el) {
+                    el.style.opacity = 0;
+                },
+                handleEnter(el, done) {
+                    Velocity(el, {
+                        opacity: 1
+                    }, {
+                        duration: 1000,
+                        complete: done
+                    });
+                },
+                handleBeforeLeave(el) {
+                    el.style.opacity = 1;
+                },
+                handleLeave(el,done) {
+                    Velocity(el, {
+                        opacity:0
+                    }, {
+                        duration: 1000,
+                        complete: done
+                    });
+                }
+            }
+        })
+        let vm = new Vue({
+            el: "#root",
+            data: {
+                show: true
+            },
+            methods: {
+                handleClick() {
+                    this.show = !this.show;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

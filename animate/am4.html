@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动画效果4</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.6/velocity.min.js"></script>
+    <script src="../vue.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.css">
+</head>
+
+<body>
+    <div id="root">
+        <!-- <transition name="fade">
+            <div v-if="show">Hello World</div>
+        </transition> -->
+        <!-- :duration="10000" duration="{enter:5000,leave:10000}" 设置动画时间 -->
+        <transition name="fade" @before-enter="handleBeforeEnter" @enter="handleEnter" @after-enter="handleAfterEnter">
+            <div v-if="show">Hello World</div>
+        </transition>
+        <button @click="handleClick">
+            toggle
+        </button>
+    </div>
+    <script>
+        let vm = new Vue({
+            el: "#root",
+            data: {
+                show: true
+            },
+            methods: {
+                handleClick() {
+                    this.show = !this.show;
+                },
+                handleBeforeEnter(el) {
+                    el.style.opacity = 0;
+                },
+                handleEnter(el, done) {
+                    Velocity(el, {
+                        opacity: 1
+                    }, {
+                        duration: 1000,
+                        complete: done
+                    })
+                },
+                handleAfterEnter(el) {
+                    this.show = !this.show;
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>

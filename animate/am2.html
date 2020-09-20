@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动画效果2</title>
+    <script src="../vue.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.css">
+    <style>
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+
+            50% {
+                transform: scale(1.5);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .enter-active {
+            transform-origin: left center;
+            /* animation: bounce-in 1s; */
+            animation: hinge 1s reverse;
+        }
+
+        .leave-active {
+            transform-origin: left center;
+            animation: hinge 1s;
+            /* animation: bounce-in 1s reverse; */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+        <!-- <transition name="fade">
+            <div v-if="show">Hello World</div>
+        </transition> -->
+        <transition appear name="custom-classes-transition" enter-active-class="animate__animated animate__swing"
+            leave-active-class="animate__animated animate__shakeX" appear-active-class="animate__animated animate__swing">
+            <div v-if="show">Hello World</div>
+        </transition>
+        <button @click="handleClick">
+            toggle
+        </button>
+    </div>
+    <script>
+        let vm = new Vue({
+            el: "#root",
+            data: {
+                show: true
+            },
+            methods: {
+                handleClick() {
+                    this.show = !this.show;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
