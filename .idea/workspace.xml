@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d43d02cb-7c08-41b9-841b-d72f0f3bae87" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/TodoItem/todoList-componet.html" beforeDir="false" afterPath="$PROJECT_DIR$/TodoItem/todoList-componet.html" afterDir="false" />
-    </list>
+    <list default="true" id="d43d02cb-7c08-41b9-841b-d72f0f3bae87" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,7 +19,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="dart.analysis.tool.window.visible" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Vue/travel_imooc_vue/travel" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -35,6 +33,7 @@
       <updated>1600392359111</updated>
       <workItem from="1600392360812" duration="1137000" />
       <workItem from="1600393515876" duration="145000" />
+      <workItem from="1600671097613" duration="17000" />
     </task>
     <servers />
   </component>
@@ -42,6 +41,10 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="739" y="274" key="FileChooserDialogImpl" timestamp="1600671112409">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="739" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1600671112409" />
     <state x="461" y="164" key="SettingsEditor" timestamp="1600393658154">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

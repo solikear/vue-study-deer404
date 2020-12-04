@@ -1,0 +1,42 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-09-30 14:17:31
+ * @LastEditTime: 2020-09-30 14:23:04
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue\obj.html
+-->
+<!-- 模板 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cn.vuejs.org/js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <p>{{user}}</p>
+        <button @click="handleClick">click</button>
+    </div>
+    <script>
+        let vm = new Vue({
+            el:"#root",
+            data:{
+                user:{
+                    name:"hjl",
+                    type:'student'
+                },
+                i:0,
+            },
+            methods: {
+                handleClick(){
+                    this.user[this.i] = this.i
+                    this.i++;
+                }
+            },
+        })
+    </script>
+</body>
+</html>
